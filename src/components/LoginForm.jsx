@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+
 import { loginUser } from "../reducers/userReducer";
 import { setNotification } from "../reducers/notificationReducer";
+
 import loginService from "../services/login";
 import blogServices from "../services/blogs";
 
@@ -10,6 +13,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,6 +28,8 @@ const LoginForm = () => {
     } catch (exception) {
       dispatch(setNotification("error", "wrong crerdentials", 5));
     }
+    
+    history.push("/");
   };
 
   return (

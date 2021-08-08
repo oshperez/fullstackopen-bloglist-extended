@@ -29,8 +29,8 @@ const BlogForm = React.forwardRef((props, ref) => {
     }
   };
 
-  // Handles new blog setup
-  const handleBlogSetup = (e) => {
+  // Sets up new blog
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setBlog((prevForm) => ({ ...prevForm, [name]: value }));
   };
@@ -45,7 +45,7 @@ const BlogForm = React.forwardRef((props, ref) => {
           value={blog.title}
           name="title"
           data-cy="blog-title"
-          onChange={(e) => handleBlogSetup(e)}
+          onChange={(e) => handleChange(e)}
         />
       </div>
       <div>
@@ -56,7 +56,7 @@ const BlogForm = React.forwardRef((props, ref) => {
           value={blog.author}
           name="author"
           data-cy="blog-author"
-          onChange={(e) => handleBlogSetup(e)}
+          onChange={(e) => handleChange(e)}
         />
       </div>
       <div>
@@ -67,14 +67,12 @@ const BlogForm = React.forwardRef((props, ref) => {
           value={blog.url}
           name="url"
           data-cy="blog-url"
-          onChange={(e) => handleBlogSetup(e)}
+          onChange={(e) => handleChange(e)}
         />
       </div>
       <button type="submit" data-cy="blog-submit">create</button>
     </form>
   );
 })
-
-
 
 export default BlogForm;

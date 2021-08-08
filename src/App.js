@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from "react";
+import { Switch, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+
 import { initializeBlogs } from "./reducers/blogReducer";
 import { loginUser, initializeUsers } from "./reducers/userReducer";
 import { setNotification } from "./reducers/notificationReducer";
@@ -9,8 +11,9 @@ import LoginForm from "./components/LoginForm";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import BlogList from "./components/BlogList";
-import UserStatus from "./components/UserStatus";
+import NavBar from "./components/NavBar";
 import UserTable from "./components/UserTable";
+import User from "./components/User";
 
 import blogServices from "./services/blogs";
 import userServices from "./services/users";
@@ -34,7 +37,6 @@ const App = () => {
         dispatch(initializeBlogs(blogs));
 
         const users = await userServices.getAll();
-        console.log(users);
         dispatch(initializeUsers(users));
       } catch (error) {
         dispatch(
@@ -51,7 +53,6 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem("loggedBloglistUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      console.log("logged-in user", user);
       dispatch(loginUser(user));
       blogServices.setToken(user.token);
     }
@@ -71,23 +72,30 @@ const App = () => {
     <div className="container">
       {notification ? <Notification notification={notification} /> : null}
       <div className="app">
-        {!loggedInUser ? (
-          <LoginForm />
-        ) : (
-          <div>
-            <div>
+        {loggedInUser ? <NavBar user={loggedInUser} /> : null}
+        <div>
+          <Switch>
+            <Route path="/login">
+              <LoginForm />
+            </Route>
+            <Route path="/users/:id">
+              <User />
+            </Route>
+            <Route path="/users">
+              <div>
+                <h2>Users</h2>
+                <UserTable />
+              </div>
+            </Route>
+            <Route path="/">
               <h2>blogs</h2>
-              <UserStatus user={loggedInUser} />
-              <br />
-              {blogForm()}
-              <BlogList />
-            </div>
-            <div>
-              <h2>Users</h2>
-              <UserTable />
-            </div>
-          </div>
-        )}
+              <div>
+                {blogForm()}
+                <BlogList />
+              </div>
+            </Route>
+          </Switch>
+        </div>
       </div>
     </div>
   );

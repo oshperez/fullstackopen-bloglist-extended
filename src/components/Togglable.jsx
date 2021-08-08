@@ -10,6 +10,7 @@ const Togglable = React.forwardRef((props, ref) => {
   };
 
   useImperativeHandle(ref, () => ({ toggleVisibility }));
+  
   return (
     <div>
       <div className={visible ? "button--hidden" : ""}>
