@@ -1,6 +1,5 @@
 import React, { useState, useImperativeHandle } from "react";
-
-import "./Togglable.css";
+import { Button } from "react-bootstrap";
 
 const Togglable = React.forwardRef((props, ref) => {
   const [visible, setVisible] = useState(false);
@@ -10,16 +9,28 @@ const Togglable = React.forwardRef((props, ref) => {
   };
 
   useImperativeHandle(ref, () => ({ toggleVisibility }));
-  
+
   return (
     <div>
-      <div className={visible ? "button--hidden" : ""}>
-        <button data-cy="toggle-open" onClick={() => toggleVisibility()}>{props.buttonLabel}</button>
-      </div>
-      <div className={!visible ? "wrapper--hidden" : ""}>
-        {props.children}
-        <button data-cy="toggle-closed" onClick={() => toggleVisibility()}>cancel</button>
-      </div>
+      <Button
+        className="mb-3"
+        variant="dark"
+        disabled={visible ? true : false}
+        onClick={() => toggleVisibility()}
+        data-cy="toggle-open"
+      >
+        {props.buttonLabel}
+      </Button>
+
+      <Button
+        className={`${!visible ? "invisible" : "mb-3 mx-3"}`}
+        variant="dark"
+        onClick={() => toggleVisibility()}
+        data-cy="toggle-closed"
+      >
+        cancel
+      </Button>
+      <div className={!visible ? "wrapper--hidden" : ""}>{props.children}</div>
     </div>
   );
 });

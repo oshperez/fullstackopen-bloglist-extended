@@ -14,6 +14,9 @@ import BlogList from "./components/BlogList";
 import NavBar from "./components/NavBar";
 import UserTable from "./components/UserTable";
 import User from "./components/User";
+import Footer from "./components/Footer";
+
+import { Container } from "react-bootstrap";
 
 import blogServices from "./services/blogs";
 import userServices from "./services/users";
@@ -69,35 +72,27 @@ const App = () => {
   };
 
   return (
-    <div className="container">
+    <Container fluid className="p-0">
       {notification ? <Notification notification={notification} /> : null}
-      <div className="app">
-        {loggedInUser ? <NavBar user={loggedInUser} /> : null}
-        <div>
-          <Switch>
-            <Route path="/login">
-              <LoginForm />
-            </Route>
-            <Route path="/users/:id">
-              <User />
-            </Route>
-            <Route path="/users">
-              <div>
-                <h2>Users</h2>
-                <UserTable />
-              </div>
-            </Route>
-            <Route path="/">
-              <h2>blogs</h2>
-              <div>
-                {blogForm()}
-                <BlogList />
-              </div>
-            </Route>
-          </Switch>
-        </div>
-      </div>
-    </div>
+      {loggedInUser ? <NavBar user={loggedInUser} /> : null}
+      <Container style={{ minHeight: "80vh" }}>
+        <Switch>
+          <Route path="/login">
+            <LoginForm />
+          </Route>
+          <Route path="/users/:id">
+            <User />
+          </Route>
+          <Route path="/users">
+            <UserTable />
+          </Route>
+          <Route path="/">
+            <BlogList blogForm={blogForm} />
+          </Route>
+        </Switch>
+      </Container>
+      {loggedInUser ? <Footer /> : null}
+    </Container>
   );
 };
 

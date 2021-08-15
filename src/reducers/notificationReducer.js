@@ -1,13 +1,13 @@
 const notificationReducer = (state = null, action) => {
   switch (action.type) {
     case "notification/setNotification":
-      return action.payload
+      return action.payload;
     case "notification/removeNotification":
-      return null
+      return null;
     default:
-      return state
+      return state;
   }
-}
+};
 
 export const setNotification = (category, message, delay) => {
   return {
@@ -15,15 +15,15 @@ export const setNotification = (category, message, delay) => {
     payload: {
       category,
       message,
-      delay
-    }
-  }
-}
+      delay,
+    },
+  };
+};
 
 export const removeNotification = () => {
   return {
-    type: "notification/removeNotification"
-  }
-}
+    type: "notification/removeNotification",
+  };
+};
 
-export default notificationReducer
+export default notificationReducer;

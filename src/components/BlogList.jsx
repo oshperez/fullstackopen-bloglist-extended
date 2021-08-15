@@ -8,10 +8,13 @@ import blogServices from "../services/blogs";
 import Blog from "../components/Blog";
 import BlogDetails from "../components/BlogDetails";
 
-const BlogList = (props) => {
+import { ListGroup } from "react-bootstrap";
+
+const BlogList = ({ blogForm }) => {
   const blogs = useSelector((state) => state.blogs);
+  const loggedInUser = useSelector((state) => state.users.loggedInUser);
   const dispatch = useDispatch();
-  const history = useHistory()
+  const history = useHistory();
 
   const handleAddLikes = async (id) => {
     try {
@@ -46,35 +49,41 @@ const BlogList = (props) => {
           setNotification("error", `deletion failed ${error.message}`, 5)
         );
       }
-      history.push("/")
+      history.push("/");
     }
   };
 
   return (
-    <div>
-      <Switch>
-        <Route path="/blogs/:id">
-          <BlogDetails
-            addLikes={handleAddLikes}
-            deleteBlog={handleDeleteBlog}
-          />
-        </Route>
-        <Route path="/">
-          <div data-cy="blog-container">
-            {blogs
-              .sort((blog1, blog2) => blog2.likes - blog1.likes)
-              .map((blog) => (
-                <Blog
-                  key={blog.id}
-                  blog={blog}
-                  addLikes={handleAddLikes}
-                  deleteBlog={handleDeleteBlog}
-                />
-              ))}
-          </div>
-        </Route>
-      </Switch>
-    </div>
+    <Switch>
+      <Route path="/blogs/:id">
+        <BlogDetails
+          user={loggedInUser}
+          addLikes={handleAddLikes}
+          deleteBlog={handleDeleteBlog}
+        />
+      </Route>
+      <Route path="/">
+        <ListGroup
+          variant="flush"
+          className="my-3"
+          // style={{ maxWidth: "75vw" }}
+          data-cy="blog-container"
+        >
+          {blogs
+            .sort((blog1, blog2) => blog2.likes - blog1.likes)
+            .map((blog) => (
+              <Blog
+                key={blog.id}
+                blog={blog}
+                user={loggedInUser}
+                addLikes={handleAddLikes}
+                deleteBlog={handleDeleteBlog}
+              />
+            ))}
+        </ListGroup>
+        {blogForm()}
+      </Route>
+    </Switch>
   );
 };
 

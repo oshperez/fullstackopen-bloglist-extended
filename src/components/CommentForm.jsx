@@ -2,6 +2,8 @@ import { useState } from "react";
 import { addComment } from "../reducers/blogReducer";
 import { useDispatch } from "react-redux";
 import blogService from "../services/blogs";
+import { Form, FloatingLabel, Button } from "react-bootstrap";
+
 const CommentForm = ({ blogId }) => {
   const [comment, setComment] = useState("");
   const dispatch = useDispatch();
@@ -16,16 +18,25 @@ const CommentForm = ({ blogId }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <textarea
-        rows="5"
-        cols="35"
-        value={comment}
-        onChange={(e) => setComment(e.target.value)}
-      ></textarea>
-      <br />
-      <button type="submit">add</button>
-    </form>
+    <Form onSubmit={handleSubmit}>
+      <FloatingLabel
+        controlId="floatingTextarea"
+        label="Comments"
+        className="mb-3"
+      >
+        <Form.Control
+          as="textarea"
+          placeholder="Leave a comment here"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          style={{ height: 100 }}
+        />
+      </FloatingLabel>
+
+      <Button variant="primary" type="submit">
+        add
+      </Button>
+    </Form>
   );
 };
 

@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { removeNotification } from "../reducers/notificationReducer";
 import { useDispatch } from "react-redux";
+import { Alert } from "react-bootstrap";
 
 const Notification = ({ notification: { category, message, delay } }) => {
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     const timeoutID = setTimeout(
       () => dispatch(removeNotification()),
@@ -12,14 +13,20 @@ const Notification = ({ notification: { category, message, delay } }) => {
     );
     return () => clearTimeout(timeoutID);
   }, [dispatch, delay]);
-  
+
   return (
-    <div
-      className={`notification notification__${category}`}
+    <Alert className="m-0"
+      variant={
+        category === "success"
+          ? "success"
+          : category === "error"
+          ? "danger"
+          : "info"
+      }
       data-cy="notification"
     >
-      <span>{message}</span>
-    </div>
+      {message}
+    </Alert>
   );
 };
 

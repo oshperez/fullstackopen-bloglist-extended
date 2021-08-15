@@ -1,22 +1,23 @@
-import { useState } from "react";
-import CommentForm from "./CommentForm";
+import { Card, ListGroup } from "react-bootstrap";
 
-const Comments = ({ comments, blogId }) => {
-  const [showForm, setShowForm] = useState(false);
-
+const Comments = ({ comments }) => {
   return (
-    <div style={{ padding: "1rem" }}>
-      <h2>Comments</h2>
-      <button onClick={() => setShowForm(!showForm)}>
-        {showForm ? "cancel" : "comment"}
-      </button>
-      {showForm ? <CommentForm blogId={blogId} /> : null}
-      <ul>
-        {comments.map((comment) => (
-          <li key={comment.id}>{comment.content}</li>
-        ))}
-      </ul>
-    </div>
+    <Card className="m-3" style={{minWidth: "40%"}}>
+      <Card.Header as="h5">Comments</Card.Header>
+      <Card.Body>
+        {comments.length > 0 ? (
+          <ListGroup variant="flush">
+            {comments.map((comment) => (
+              <ListGroup.Item key={comment.id}>
+                {comment.content}
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
+        ) : (
+          <Card.Text className="text-muted">No comments yet</Card.Text>
+        )}
+      </Card.Body>
+    </Card>
   );
 };
 
