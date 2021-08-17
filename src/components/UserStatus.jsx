@@ -7,7 +7,6 @@ import { BoxArrowRight, Person } from "react-bootstrap-icons";
 const UserStatus = ({ user }) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  console.log("user prop inside User status", user);
 
   const handleClick = () => {
     history.push(`/users/${user.id}`);

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createBlog } from "../reducers/blogReducer";
 import { setNotification } from "../reducers/notificationReducer";
+import { addBlogToUser } from "../reducers/userReducer";
 
 import { Form, FloatingLabel, Button } from "react-bootstrap";
 
@@ -23,6 +24,10 @@ const BlogForm = React.forwardRef((props, ref) => {
       ref.current.toggleVisibility();
 
       dispatch(createBlog(newBlog));
+      
+      const {likes, comments, title, author, url, id} = newBlog
+      dispatch(addBlogToUser({likes, comments, title, author, url, id}))
+      
       dispatch(
         setNotification("success", `new blog ${newBlog.title} added`, 5)
       );
@@ -43,7 +48,7 @@ const BlogForm = React.forwardRef((props, ref) => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FloatingLabel controlId="floatingInput" label="Title" className="mb-2">
+      <FloatingLabel label="Title" className="mb-2">
         <Form.Control
           type="text"
           id="title"
@@ -54,7 +59,7 @@ const BlogForm = React.forwardRef((props, ref) => {
           placeholder="Title"
         />
       </FloatingLabel>
-      <FloatingLabel controlId="floatingInput" label="Author" className="mb-2">
+      <FloatingLabel label="Author" className="mb-2">
         <Form.Control
           type="text"
           id="author"
@@ -65,7 +70,7 @@ const BlogForm = React.forwardRef((props, ref) => {
           placeholder="Author"
         />
       </FloatingLabel>
-      <FloatingLabel controlId="floatingInput" label="Url" className="mb-2">
+      <FloatingLabel label="Url" className="mb-2">
         <Form.Control
           type="text"
           id="url"
@@ -77,7 +82,12 @@ const BlogForm = React.forwardRef((props, ref) => {
         />
       </FloatingLabel>
 
-      <Button variant="primary" className="mb-2"type="submit" data-cy="blog-submit">
+      <Button
+        variant="primary"
+        className="mb-2"
+        type="submit"
+        data-cy="blog-submit"
+      >
         create
       </Button>
     </Form>

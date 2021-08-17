@@ -1,8 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
-import { addLikes, deleteBlog } from "../reducers/blogReducer";
 import { Switch, Route } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { setNotification } from "../reducers/notificationReducer";
+import { addLikes, deleteBlog } from "../reducers/blogReducer";
 import blogServices from "../services/blogs";
 
 import Blog from "../components/Blog";
@@ -13,19 +13,24 @@ import { ListGroup } from "react-bootstrap";
 const BlogList = ({ blogForm }) => {
   const blogs = useSelector((state) => state.blogs);
   const loggedInUser = useSelector((state) => state.users.loggedInUser);
+
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const handleAddLikes = async (id) => {
+  const handleAddLikes = async (id, alreadyLiked) => {
     try {
       const targetBlog = blogs.find((blog) => blog.id === id);
+      const replacement = alreadyLiked
+        ? {
+            ...targetBlog,
+            likes: targetBlog.likes.filter((id) => id !== loggedInUser.id),
+          }
+        : { ...targetBlog, likes: [...targetBlog.likes, loggedInUser.id] };
 
-      const updatedBlog = await blogServices.update({
-        ...targetBlog,
-        likes: (targetBlog.likes += 1),
-      });
 
+      const updatedBlog = await blogServices.update(replacement);
       dispatch(addLikes(updatedBlog));
+      
     } catch (error) {
       dispatch(setNotification("error", `${error.message}`, 5));
     }
@@ -63,12 +68,7 @@ const BlogList = ({ blogForm }) => {
         />
       </Route>
       <Route path="/">
-        <ListGroup
-          variant="flush"
-          className="my-3"
-          // style={{ maxWidth: "75vw" }}
-          data-cy="blog-container"
-        >
+        <ListGroup variant="flush" className="my-3" data-cy="blog-container">
           {blogs
             .sort((blog1, blog2) => blog2.likes - blog1.likes)
             .map((blog) => (

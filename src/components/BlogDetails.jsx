@@ -20,6 +20,7 @@ const BlogDetails = ({ user, addLikes, deleteBlog }) => {
 
   if (!blog) return null;
 
+  const isAlredyLikedByUser = blog.likes.some((id) => id === user.id);
   const isDeletionAllow = blog.user.username === user.username;
 
   return (
@@ -33,13 +34,21 @@ const BlogDetails = ({ user, addLikes, deleteBlog }) => {
         </Card.Link>
         <Card className="mt-2 mb-4 border-0">
           <Card.Body className="d-flex bg-light p-2">
-            <HandThumbsUp
-              className="mx-1"
-              size="25"
-              onClick={() => addLikes(blog.id)}
-            />{" "}
-            <Badge pill className="mx-1 py-2" bg="primary">
-              {blog.likes}
+            {isAlredyLikedByUser ? (
+              <HandThumbsUpFill
+                className="text-primary y mx-1"
+                size="25"
+                onClick={() => addLikes(blog.id, isAlredyLikedByUser)}
+              />
+            ) : (
+              <HandThumbsUp
+                className="mx-1"
+                size="25"
+                onClick={() => addLikes(blog.id, isAlredyLikedByUser)}
+              />
+            )}{" "}
+            <Badge pill className="mx-1 py-2" bg="secondary">
+              {blog.likes.length}
             </Badge>
             {isDeletionAllow ? (
               <Trash

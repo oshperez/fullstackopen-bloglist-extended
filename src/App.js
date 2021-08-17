@@ -61,8 +61,6 @@ const App = () => {
     }
   }, [dispatch]);
 
-  // Returns blog form
-
   const blogForm = () => {
     return (
       <Togglable buttonLabel="add blog" ref={blogFormRef}>

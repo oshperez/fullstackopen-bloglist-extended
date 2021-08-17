@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer className="footer bg-dark mt-3 py-3">
       <div className="container d-flex  justify-content-center ">
-        <span class="text-muted">&copy; 2021 Blog List</span>
+        <span className="text-muted">&copy; 2021 Blog List</span>
         <span className="text-secondary px-4">|</span>
         <span>
           <a href="https://facebook.com">
