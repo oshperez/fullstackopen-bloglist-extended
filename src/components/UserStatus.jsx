@@ -22,7 +22,7 @@ const UserStatus = ({ user }) => {
 
   return (
     <NavDropdown
-      className="ms-3 border border-secondary rounded"
+      className="ms-3"
       title={user.name}
       menuVariant="dark"
     >

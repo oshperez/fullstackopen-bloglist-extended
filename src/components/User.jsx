@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { useRouteMatch } from "react-router-dom";
 import { Card, ListGroup } from "react-bootstrap";
 
@@ -22,8 +23,15 @@ const User = () => {
         <Card.Header as="h5">added blogs</Card.Header>
         <ListGroup variant="flush">
           {user.blogs.length > 0 ? (
-            user.blogs.map((post) => (
-              <ListGroup.Item key={post.id}>{post.title}</ListGroup.Item>
+            user.blogs.map((blog) => (
+              <ListGroup.Item key={blog.id}>
+                <Link
+                  className="text-decoration-none text-dark"
+                  to={`/blogs/${blog.id}`}
+                >
+                  {blog.title}
+                </Link>
+              </ListGroup.Item>
             ))
           ) : (
             <ListGroup.Item className="text-muted">

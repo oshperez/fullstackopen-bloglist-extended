@@ -27,8 +27,12 @@ const blogReducer = (state = [], action) => {
         ...commentedBlog.comments,
         action.payload.comment,
       ];
-      return [...state, commentedBlog];
-    
+      return [
+        ...state.map((blog) =>
+          blog.title === commentedBlog.title ? commentedBlog : blog
+        ),
+      ];
+
     default:
       return state;
   }

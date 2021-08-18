@@ -49,6 +49,7 @@ const LoginForm = () => {
                 onChange={({ target }) => setUsername(target.value)}
                 data-cy="login-username"
                 placeholder="Enter username"
+                required
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -60,6 +61,7 @@ const LoginForm = () => {
                 onChange={({ target }) => setPassword(target.value)}
                 data-cy="login-password"
                 placeholder="Password"
+                required
               />
             </Form.Group>
             <Button variant="primary" type="submit" data-cy="login-submit">

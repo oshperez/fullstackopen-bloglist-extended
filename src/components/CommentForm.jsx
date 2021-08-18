@@ -30,6 +30,7 @@ const CommentForm = ({ blogId }) => {
           value={comment}
           onChange={(e) => setComment(e.target.value)}
           style={{ height: 100 }}
+          required
         />
       </FloatingLabel>
 

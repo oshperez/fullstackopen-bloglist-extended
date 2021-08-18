@@ -3,6 +3,7 @@ import { Switch, Route } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { setNotification } from "../reducers/notificationReducer";
 import { addLikes, deleteBlog } from "../reducers/blogReducer";
+import { removeBlogFromUser } from "../reducers/userReducer";
 import blogServices from "../services/blogs";
 
 import Blog from "../components/Blog";
@@ -45,6 +46,7 @@ const BlogList = ({ blogForm }) => {
       try {
         await blogServices.deleteBlog(targetBlog.id);
         dispatch(deleteBlog(targetBlog.id));
+        dispatch(removeBlogFromUser(targetBlog.id))
 
         dispatch(
           setNotification("success", `blog ${targetBlog.title} deleted`, 5)

@@ -15,19 +15,21 @@ const UserTable = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
-            <tr key={user.id}>
-              <td>
-                <Link
-                  className=" text-secondary text-decoration-none"
-                  to={`/users/${user.id}`}
-                >
-                  {user.name}
-                </Link>
-              </td>
-              <td>{user.blogs.length}</td>
-            </tr>
-          ))}
+          {users
+            .sort((user1, user2) => user2.blogs.length - user1.blogs.length)
+            .map((user) => (
+              <tr key={user.id}>
+                <td>
+                  <Link
+                    className=" text-secondary text-decoration-none"
+                    to={`/users/${user.id}`}
+                  >
+                    {user.name}
+                  </Link>
+                </td>
+                <td>{user.blogs.length}</td>
+              </tr>
+            ))}
         </tbody>
       </Table>
     </Container>
